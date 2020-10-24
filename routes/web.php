@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -101,3 +102,24 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//
+
+Route::group(['prefix' => 'Offers'], function () {
+    
+    Route::get('fillable', 'CrudController@getOffers');
+
+    Route::get('store ', 'CrudController@store');
+
+    // Route::get('create', 'CrudController@create');
+
+    // Route::post('create', 'CrudController@create')->name('create');
+
+    
+    Route::match(['get', 'post'], 'create','CrudController@create')->name('create');
+
+  
+
+});
+

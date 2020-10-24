@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Exceptions;
-
+use Exception;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-
+use App\Traits\ApiResponser;
 class Handler extends ExceptionHandler
 {
+   
     /**
      * A list of the exception types that are not reported.
      *
      * @var array
      */
+
+   
     protected $dontReport = [
         //
     ];
@@ -52,4 +56,6 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
+    
+
 }
