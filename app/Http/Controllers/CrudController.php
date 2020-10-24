@@ -63,8 +63,8 @@ class CrudController extends Controller
                     'details' => $req->details
 
                 ]);
-                
-                return view('Offers.create');
+                $mess='تم بنجاح';
+                return view('Offers.create',compact("mess"));
             }
         }
     }

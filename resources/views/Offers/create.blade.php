@@ -114,10 +114,10 @@
         <button type="submit" class="btn btn-primary text-align-center">Submit</button>
 
     </form>
-    {{-- <h3> {{ $mesuc ?? '' }} </h3> هنا معناه اختياري --}}
+    {{-- <h3> {{ $mess ?? '' }} </h3> هنا معناه اختياري --}}
 
     <div class="alert alert-success w-25 text-center container" role="alert">
-        {{-- <h4 class="alert-heading">{{$mesuc['a'] ?? ''}} </h4> --}}
+      <h4 class="alert-heading">{{$mess ?? ''}} </h4>
         <p></p>
         <p class="mb-0"></p>
     </div>
