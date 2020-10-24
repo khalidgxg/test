@@ -14,23 +14,23 @@ class CrudController extends Controller
     public function __construct()
     {
     }
-    public function getOffers()
-    {
+    // public function getOffers()
+    // {
 
-        // return Offer::select('name')->get();
-        return Offer::get();
-    }
-    public function store()
-    {
-        $create =
-            [
-                'name' => 'khalidTaher',
-                'price' => '1000',
-                'details' => 'lorem'
-            ];
+    //     // return Offer::select('name')->get();
+    //     return Offer::get();
+    // }
+    // public function store()
+    // {
+    //     $create =
+    //         [
+    //             'name' => 'khalidTaher',
+    //             'price' => '1000',
+    //             'details' => 'lorem'
+    //         ];
 
-        return Offer::create($create);
-    }
+    //     return Offer::create($create);
+    // }
 
     public function create(REQUEST $req)
     {
@@ -45,20 +45,27 @@ class CrudController extends Controller
         if ($req->isMethod('post')) {
             // if method is post :
             //validate data before insert to DB
+        
             $validator = FacadesValidator::make($req->all(), $this->getRules(), $this->getMessages());
 
             if ($validator->fails()) {
-                return dd($validator->errors());
+                //return dd($validator->errors());
+                return redirect()->back()->withErrors($validator)->withInput($req->all());
+                //or
+                //return view('Offers.create')->withErrors($validator)->withInput($req->all());
+
             }
+             else {
+                 //insert to database
+                Offer::create([
+                    'name' => $req->name,
+                    'price' => $req->price,
+                    'details' => $req->details
 
-            Offer::create([
-                'name' => $req->name,
-                'price' => $req->price,
-                'details' => $req->details
-
-            ]);
-            $mesuc = ["a" => "Saved successfuly"];
-            return view('Offers.create', compact('mesuc'));
+                ]);
+                
+                return view('Offers.create');
+            }
         }
     }
     public function getRules()

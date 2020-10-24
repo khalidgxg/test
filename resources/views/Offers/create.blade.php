@@ -86,14 +86,29 @@
         <div class="form-group w-50 ">
             <label for="name">Name:</label>
             <input type="text" class="form-control" placeholder="Enter name" id="name" name="name">
+            {{-- //validation --}}
+            @error('name')
+            <small class="form-text text-danger">{{$message}}</small>
+            @enderror
         </div>
+
         <div class="form-group w-50">
             <label for="price">price:</label>
             <input type="text" class="form-control" placeholder="Enter price" id="price" name="price">
+            {{-- //validation --}}
+            @error('price')
+            {{-- //message without (s) is attrbute in @error --}}
+            <small class="form-text text-danger">{{$message}}</small>
+            @enderror
         </div>
+
         <div class=" w-50 form-group >
             <label for=" details">details:</label>
             <input type="text" class="form-control" placeholder="Enter details" id="details" name="details">
+            {{-- //validation --}}
+            @error('details')
+            <small class="form-text text-danger">{{$message}}</small>
+            @enderror
         </div>
 
         <button type="submit" class="btn btn-primary text-align-center">Submit</button>
@@ -102,9 +117,8 @@
     {{-- <h3> {{ $mesuc ?? '' }} </h3> هنا معناه اختياري --}}
 
     <div class="alert alert-success w-25 text-center container" role="alert">
-        <h4 class="alert-heading">{{$mesuc['a'] ?? ''}}
-        </h4>
-        <p>In database </p>
+        {{-- <h4 class="alert-heading">{{$mesuc['a'] ?? ''}} </h4> --}}
+        <p></p>
         <p class="mb-0"></p>
     </div>
 
