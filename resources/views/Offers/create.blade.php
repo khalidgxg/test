@@ -1,5 +1,11 @@
+
+
+<?php
+      $dir=str_replace('_', '-', app()->getLocale())=="en"? "ltr":"rtl";
+      $align=$dir=='rtl'?'right':'left';
+ ?>
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{$dir}}">
 
 <head>
     <!-- Latest compiled and minified CSS -->
@@ -78,14 +84,34 @@
 </head>
 
 <body>
+    {{-- {{ str_replace('_', '-', app()->getLocale()) }} --}}
 
-    <h1 style="text-align:center"> Test Form insert To DB </h1>
 
-    <form class="container " action=" {{Route('create')}}" method="POST">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">{{__('CreatePage.Navbar')}}</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            {{-- يعمل لوب ويطلع لك اللغات الي انته مفعلها مع اسمها ورابطها --}}
+            <ul class="navbar-nav">
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                <li>
+                <li class="nav-item active">
+                    {{-- عند الظغط علئ الرابط حسب اللغه يحول الديفولت عندك فكل الي عملته باي لغه يتفعل --}}
+                    <a class="nav-link"
+                        href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">{{ $properties['native'] }}<span
+                            class="sr-only">(current)</span></a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+    </nav>
+
+    <h1 style="text-align:center"> {{__('CreatePage.title')}} </h1>
+
+    <form style="text-align:{{$align}}" class="container " action=" {{Route('create')}}" method="POST">
         @csrf
         <div class="form-group w-50 ">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" placeholder="Enter name" id="name" name="name">
+            <label for="name">{{__('CreatePage.Name')}}:</label>
+            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHName')}}" id="name" name="name">
             {{-- //validation --}}
             @error('name')
             <small class="form-text text-danger">{{$message}}</small>
@@ -93,8 +119,8 @@
         </div>
 
         <div class="form-group w-50">
-            <label for="price">price:</label>
-            <input type="text" class="form-control" placeholder="Enter price" id="price" name="price">
+            <label for="price">{{__('CreatePage.Price')}}</label>
+            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHPrice')}}" id="price" name="price">
             {{-- //validation --}}
             @error('price')
             {{-- //message without (s) is attrbute in @error --}}
@@ -103,25 +129,26 @@
         </div>
 
         <div class=" w-50 form-group >
-            <label for=" details">details:</label>
-            <input type="text" class="form-control" placeholder="Enter details" id="details" name="details">
+            <label for=" details">{{__('CreatePage.Details')}}</label>
+            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHDetails')}}"" id=" details"
+                name="details">
             {{-- //validation --}}
             @error('details')
             <small class="form-text text-danger">{{$message}}</small>
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary text-align-center">Submit</button>
+        <button type="submit" class="btn btn-primary text-align-center">{{__('CreatePage.Submit')}}</button>
 
     </form>
     {{-- <h3> {{ $mess ?? '' }} </h3> هنا معناه اختياري --}}
-
+    @if( session()->has('succ') )
     <div class="alert alert-success w-25 text-center container" role="alert">
-      <h4 class="alert-heading">{{$mess ?? ''}} </h4>
+        <h4 class="alert-heading">{{session()->get('succ')}} </h4>
         <p></p>
         <p class="mb-0"></p>
     </div>
-
+    @endif
 
 
 

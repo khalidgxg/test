@@ -18,35 +18,35 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/welcome',function(){
+Route::get('/welcome', function () {
 
     return view('welcome');
 })->name("a");
 
-// اختصار للرابط بدال ما يكون اسمه ولكمم عشانن لو بنستخدمه داخل الفيو يكون مختصر وبدال ما نستخدم url 
+// اختصار للرابط بدال ما يكون اسمه ولكمم عشانن لو بنستخدمه داخل الفيو يكون مختصر وبدال ما نستخدم url
 //نستخدم حاجه اسمها route("name of url")
 //موضحه في الفيو
-Route::namespace("Admin")->group(function(){
+Route::namespace("Admin")->group(function () {
 
-    Route::get('users', "TestController@show");//App\Http\Controllers\Admin\TestController@show
+    Route::get('users', "TestController@show"); //App\Http\Controllers\Admin\TestController@show
 
     // مافي داعي نكتب الامتداد كامل لانه النايم سبيس يختصر عليك
-        
-    
+
+
 });
 
 Route::group(['prefix' => 'aedmin'], function () {
-    
-    Route::any('user', function ( ){
+
+    Route::any('user', function () {
         return "admin/user";
     })->name('adus');
-    Route::get('customer', function ( ){
+    Route::get('customer', function () {
         return "admin/customer";
     });
 });
 
-Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
-    Route::any('user', function ( ){
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    Route::any('user', function () {
         return "admin/user";
     })->name('adus');
 });
@@ -72,11 +72,11 @@ Route::get('s1', 'test2@s2');
 // Route::put('test/{id}', 'test5Controller@update');
 // Route::get('test/{id}', 'test5Controller@destory');
 
-Route::resource('test', 'test5Controller'); // هنا يختصر عليك الي فوقه حيث يضم جميع الدوال فقط نحفظ الرابط حق كل واحد 
+Route::resource('test', 'test5Controller'); // هنا يختصر عليك الي فوقه حيث يضم جميع الدوال فقط نحفظ الرابط حق كل واحد
 
-Route::get("/we/{name?}","khalid@we");
+Route::get("/we/{name?}", "khalid@we");
 
-Route::get("/","testController@test");
+Route::get("/", "testController@test");
 
 Route::view('ww', 'test2');
 
@@ -95,31 +95,35 @@ Route::view('ww', 'test2');
 
 
 
-Auth::routes(['verify'=>true]);
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+Auth::routes();      
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 //
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+    ],
+    function () {
 
-Route::group(['prefix' => 'Offers'], function () {
-    
-    Route::get('fillable', 'CrudController@getOffers');
+        Route::group(['prefix' => 'Offers'], function () {
 
-    Route::get('store ', 'CrudController@store');
+            Route::get('fillable', 'CrudController@getOffers');
 
-    // Route::get('create', 'CrudController@create');
+            Route::get('store ', 'CrudController@store');
 
-    // Route::post('create', 'CrudController@create')->name('create');
+            // Route::get('create', 'Crud Controller@create');
 
-    
-    Route::match(['get', 'post'], 'create','CrudController@create')->name('create');
+            // Route::post('create', 'CrudController@create')->name('create');
 
-  
 
-});
-
+            Route::match(['get', 'post'], 'create', 'CrudController@create')->name('create');
+        });
+    }
+);

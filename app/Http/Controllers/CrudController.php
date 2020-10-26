@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use resources\lang;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use stdClass;
@@ -45,7 +45,7 @@ class CrudController extends Controller
         if ($req->isMethod('post')) {
             // if method is post :
             //validate data before insert to DB
-        
+
             $validator = FacadesValidator::make($req->all(), $this->getRules(), $this->getMessages());
 
             if ($validator->fails()) {
@@ -63,8 +63,8 @@ class CrudController extends Controller
                     'details' => $req->details
 
                 ]);
-                $mess='تم بنجاح';
-                return view('Offers.create',compact("mess"));
+
+                return redirect()->back()->with(['succ'=>"تم اضافة العرض بنجاح"]);
             }
         }
     }
@@ -81,11 +81,12 @@ class CrudController extends Controller
     public function getMessages()
     {
         return $messages = [
-
-            'name.required' => 'اسم العرض  مطلوب',
-            'name.unique' => "الاسم موجود مسبقا",
-            'price.required' => 'السعر مطلوب',
-            'details.required' => 'التفاصيل مطلوبه'
+                               //اما نكتب تران او 2 اندر سكول وكله واحد
+            'name.required' =>__('Messages.offerNameRequired'),
+            'name.unique' => trans('Messages.offerNameUnique'),
+            'price.required' => __('Messages.PriceRequired'),
+            'price.numeric' => trans('Messages.PriceNumeric'),
+            'details.required' => __('Messages.DetailsRequired')
         ];
     }
 }
