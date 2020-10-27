@@ -99,7 +99,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();      
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -123,7 +123,8 @@ Route::group(
             // Route::post('create', 'CrudController@create')->name('create');
 
 
-            Route::match(['get', 'post'], 'create', 'CrudController@create')->name('create');
+            Route::get( 'create', 'CrudController@Createget');
+            Route::post('create', 'CrudController@Createpost')->name('create');
         });
     }
 );
