@@ -27,16 +27,13 @@ class CrudController extends Controller
 
     public function Createpost(OfferRequest $req)
     {
-        $file = $req->image->getclientOriginalExtension();//get extension like mp4 or jpg
-        $file_name = time() . '.' . $file;
-        $path = 'images/offers';
-        $req->image->move($path, $file_name);
+        $file_name= $this ->saveitem($req->image,'images/offers');
 
         Offer::create([
             'name' => $req->name,
             'price' => $req->price,
             'details' => $req->details,
-            'image'=> $file_name,
+            'image' => $file_name,
 
         ]);
 
@@ -53,20 +50,17 @@ class CrudController extends Controller
     }
 
     //
-    public function editOffer($offer_id )
+    public function editOffer($offer_id)
     {
 
 
-            $offer = Offer::find($offer_id);
-            if (!$offer) {
-                return redirect()->back();
-            }
-            $offer =  offer::select('id', 'name', 'price', 'details')->find($offer_id);
+        $offer = Offer::find($offer_id);
+        if (!$offer) {
+            return redirect()->back();
+        }
+        $offer =  offer::select('id', 'name', 'price', 'details')->find($offer_id);
 
-            return view("Offers/edit", compact('offer'));
-
-
-
+        return view("Offers/edit", compact('offer'));
     }
 
     public function updateOffer(OfferRequest $req, $offer_id)
@@ -77,11 +71,11 @@ class CrudController extends Controller
         if (!$offer) {
             return redirect()->back();
         }
-        $offer-> update($req->all()); // all update all
-        return redirect()->back()->with(['succ'=>'complate update']);
+        $offer->update($req->all()); // all update all
+        return redirect()->back()->with(['succ' => 'complate update']);
         // $offer-> update(["name"=>$req->name]);//only name upgrade
 
-         //save phpto in folder
+        //save phpto in folder
         // $file=$req->image ->getclientOriginalExtension();
         // $file_name=time().$file;
         // $path='images/offers';
@@ -92,7 +86,15 @@ class CrudController extends Controller
     }
 
 
-
+    protected function saveitem($image, $folder)
+    {
+        $ran=rand(0,900).rand(0,100).rand(9,200);
+        $file = $image->getclientOriginalExtension(); //get extension like mp4 or jpg
+        $file_name = date("r-") .$ran. '.' . $file;
+        $path = $folder;
+        $image->move($path, $file_name);
+        return $file_name;
+    }
 
 
 
