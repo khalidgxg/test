@@ -108,12 +108,12 @@
 
     <h1 style="text-align:center"> {{__('CreatePage.title')}} </h1>
 
-    <form style="text-align:{{$align}}" class="container " action=" {{Route('create')}}" method="POST" enctype="multipart/form-data">
+    <form style="text-align:{{$align}}" class="container " action=" {{Route('update',$offer->id ?? '')}}" method="POST">
         @csrf
 
         <div class="form-group w-50 ">
             <label for="name">{{__('CreatePage.Name')}}:</label>
-            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHName')}}" id="name" name="name">
+            <input value ='{{$offer->name}}' type="text" class="form-control" placeholder="{{__('CreatePage.PHName')}}" id="name" name="name">
             {{-- //validation --}}
             @error('name')
             <small class="form-text text-danger">{{$message}}</small>
@@ -122,7 +122,7 @@
 
         <div class="form-group w-50">
             <label for="price">{{__('CreatePage.Price')}}</label>
-            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHPrice')}}" id="price" name="price">
+            <input value ='{{$offer->price}}' type="text" class="form-control" placeholder="{{__('CreatePage.PHPrice')}}" id="price" name="price">
             {{-- //validation --}}
             @error('price')
             {{-- //message without (s) is attrbute in @error --}}
@@ -132,20 +132,10 @@
 
         <div class=" w-50 form-group >
             <label for=" details">{{__('CreatePage.Details')}}</label>
-            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHDetails')}}"" id=" details"
+            <input value ='{{$offer->details}}' type="text" class="form-control" placeholder="{{__('CreatePage.PHDetails')}}"" id=" details"
                 name="details">
             {{-- //validation --}}
             @error('details')
-            <small class="form-text text-danger">{{$message}}</small>
-            @enderror
-        </div>
-
-<div class="form-group w-50">
-            <label for="Image">{{__('CreatePage.image')}}</label>
-            <input type="file" class="form-control" " id="price" name="image">
-            {{-- //validation --}}
-            @error('image')
-            {{-- //message without (s) is attrbute in @error --}}
             <small class="form-text text-danger">{{$message}}</small>
             @enderror
         </div>

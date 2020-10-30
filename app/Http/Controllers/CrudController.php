@@ -12,13 +12,12 @@ use Illuminate\Support\Facades\Validator as FacadesValidator;
 class CrudController extends Controller
 {
 
-
     public function __construct()
     {
     }
 
-// tow ways:
-//First by Create Requsest (php artisan make:request OfferRequest) ,then all rules and messages are placed in it
+    // tow ways:
+    //First by Create Requsest (php artisan make:request OfferRequest) ,then all rules and messages are placed in it
     public function Createget()
     {
 
@@ -28,14 +27,68 @@ class CrudController extends Controller
 
     public function Createpost(OfferRequest $req)
     {
+        $file = $req->image->getclientOriginalExtension();//get extension like mp4 or jpg
+        $file_name = time() . '.' . $file;
+        $path = 'images/offers';
+        $req->image->move($path, $file_name);
+
         Offer::create([
             'name' => $req->name,
             'price' => $req->price,
-            'details' => $req->details
+            'details' => $req->details,
+            'image'=> $file_name,
 
         ]);
 
+
         return redirect()->back()->with(['succ' => "تم اضافة العرض بنجاح"]);
+    }
+
+
+    public function getAllOffers()
+    {
+
+        $offers = offer::select('id', 'name', 'price', 'details')->get(); //return full tables means group of array
+        return view("Offers/index", compact('offers'));
+    }
+
+    //
+    public function editOffer($offer_id )
+    {
+
+
+            $offer = Offer::find($offer_id);
+            if (!$offer) {
+                return redirect()->back();
+            }
+            $offer =  offer::select('id', 'name', 'price', 'details')->find($offer_id);
+
+            return view("Offers/edit", compact('offer'));
+
+
+
+    }
+
+    public function updateOffer(OfferRequest $req, $offer_id)
+    {
+
+
+        $offer = Offer::find($offer_id);
+        if (!$offer) {
+            return redirect()->back();
+        }
+        $offer-> update($req->all()); // all update all
+        return redirect()->back()->with(['succ'=>'complate update']);
+        // $offer-> update(["name"=>$req->name]);//only name upgrade
+
+         //save phpto in folder
+        // $file=$req->image ->getclientOriginalExtension();
+        // $file_name=time().$file;
+        // $path='images/offers';
+        // $req ->image->move($path,$file_name);
+        // return 'okay';
+
+
     }
 
 
@@ -44,13 +97,7 @@ class CrudController extends Controller
 
 
 
-
-
-
-
-
-
-//second we make all validation and rules herem:
+    //second we make all validation and rules herem:
 
 
 

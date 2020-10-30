@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CrudController;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
@@ -125,6 +126,12 @@ Route::group(
 
             Route::get( 'create', 'CrudController@Createget');
             Route::post('create', 'CrudController@Createpost')->name('create');
+            Route::get("all","CrudController@getAllOffers");
+            Route::get("edit/{offer_id?}", "CrudController@editOffer")->name('edit');
+            Route::post("update/{offer_id?}", "CrudController@updateOffer")->name('update');
+
+         
+
         });
     }
 );

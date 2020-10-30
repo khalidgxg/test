@@ -23,14 +23,15 @@ class OfferRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-
-            'name' => 'required|max:100|unique:offers,name',
-            'price' => 'required|numeric',
-            'details' => 'required'
-        ];
+        return
+            [
+                'name' => 'required|max:100|unique:offers,name',
+                'price' => 'required|numeric',
+                'details' => 'required',
+            ];
     }
-    public function messages()//messages in FormRequest
+
+    public function messages() //messages in FormRequest
     {
         return  [
             //اما نكتب تران او 2 اندر سكول وكله واحد
@@ -38,7 +39,7 @@ class OfferRequest extends FormRequest
             'name.unique' => trans('Messages.offerNameUnique'),
             'price.required' => __('Messages.PriceRequired'),
             'price.numeric' => trans('Messages.PriceNumeric'),
-            'details.required' => __('Messages.DetailsRequired')
+            'details.required' => __('Messages.DetailsRequired'),
         ];
     }
 }

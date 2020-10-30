@@ -1,10 +1,9 @@
 <?php
-      $lang=str_replace('_', '-', app()->getLocale());
-      $dir=$lang=="en"? "ltr":"rtl";
+      $dir=str_replace('_', '-', app()->getLocale())=="en"? "ltr":"rtl";
       $align=$dir=='rtl'?'right':'left';
  ?>
 <!DOCTYPE html>
-<html lang="{{ $lang }}" dir="{{$dir}}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{$dir}}">
 
 <head>
     <!-- Latest compiled and minified CSS -->
@@ -106,63 +105,30 @@
         </div>
     </nav>
 
-    <h1 style="text-align:center"> {{__('CreatePage.title')}} </h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">{{__("indexPage.Name")}}</th>
+                <th scope="col">{{__("indexPage.Price")}}</th>
+                <th scope="col">{{__("indexPage.Details")}}</th>
+                <th scope="col">{{__("indexPage.operation")}}</th>
+            </tr>
+        </thead>
+        @foreach ($offers as $offer)
+        <tbody>
+            <tr>
+                <th>{{$offer->id}}</th>
+                <td>{{$offer->name}}</td>
+                <td>{{$offer->price}}</td>
+                <td>{{$offer->details}}</td>
+                <td><a href="{{url('Offers/edit/'.$offer->id)}}"><button class="btn btn-success">{{__("indexPage.operation")}}</button></a></td>
+            </tr>
 
-    <form style="text-align:{{$align}}" class="container " action=" {{Route('create')}}" method="POST" enctype="multipart/form-data">
-        @csrf
+        </tbody>
+        @endforeach
 
-        <div class="form-group w-50 ">
-            <label for="name">{{__('CreatePage.Name')}}:</label>
-            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHName')}}" id="name" name="name">
-            {{-- //validation --}}
-            @error('name')
-            <small class="form-text text-danger">{{$message}}</small>
-            @enderror
-        </div>
-
-        <div class="form-group w-50">
-            <label for="price">{{__('CreatePage.Price')}}</label>
-            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHPrice')}}" id="price" name="price">
-            {{-- //validation --}}
-            @error('price')
-            {{-- //message without (s) is attrbute in @error --}}
-            <small class="form-text text-danger">{{$message}}</small>
-            @enderror
-        </div>
-
-        <div class=" w-50 form-group >
-            <label for=" details">{{__('CreatePage.Details')}}</label>
-            <input type="text" class="form-control" placeholder="{{__('CreatePage.PHDetails')}}"" id=" details"
-                name="details">
-            {{-- //validation --}}
-            @error('details')
-            <small class="form-text text-danger">{{$message}}</small>
-            @enderror
-        </div>
-
-<div class="form-group w-50">
-            <label for="Image">{{__('CreatePage.image')}}</label>
-            <input type="file" class="form-control" " id="price" name="image">
-            {{-- //validation --}}
-            @error('image')
-            {{-- //message without (s) is attrbute in @error --}}
-            <small class="form-text text-danger">{{$message}}</small>
-            @enderror
-        </div>
-
-
-        <button type="submit" class="btn btn-primary text-align-center">{{__('CreatePage.Submit')}}</button>
-
-    </form>
-    {{-- <h3> {{ $mess ?? '' }} </h3> هنا معناه اختياري --}}
-    @if( session()->has('succ') )
-    <div class="alert alert-success w-25 text-center container" role="alert">
-        <h4 class="alert-heading">{{session()->get('succ')}} </h4>
-        <p></p>
-        <p class="mb-0"></p>
-    </div>
-    @endif
-
+    </table>
 
 
 </body>

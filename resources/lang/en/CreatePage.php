@@ -13,4 +13,5 @@ return [
     'PHName' => 'Enter Name',
     'PHPrice' => "Enter Price",
     'PHDetails' => "Enter Details",
+    'image'=> 'select Image'
 ];
